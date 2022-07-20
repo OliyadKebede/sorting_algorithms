@@ -1,37 +1,41 @@
 #include "sort.h"
 
 /**
-  * shell_sort - A function tat sorts an array usin shell algorithm.
-  * @array: The array to sort.
-  * @size: The length of the array.
-  * Return: Nothing.
-  */
+ * shell_sort - sort array with shell method
+ * @array: array to sort
+ * @size: size of the array
+ *
+ * Return: nothing
+*/
+
 void shell_sort(int *array, size_t size)
 {
-	unsigned int i = 0, j = 0, gap = 0;
-	int aux = 0;
+	int in = 0, out = 0, range = 1, aux = 0;
 
-	if (array == NULL || size < 2)
+	if (!array || size < 2)
 		return;
 
-	while (gap < size / 3)
-		gap = gap * 3 + 1;
+	while (range < (int) size / 3)
+		range = range * 3 + 1;
 
-	for (; gap > 0; gap = (gap - 1) / 3)
+	while (range > 0)
 	{
-		for (i = gap; i < size; i++)
+		out = range;
+		while (out < (int) size)
 		{
-			aux = array[i];
-			for (j = i; j >= gap && array[j - gap] > aux;
-					j -= gap)
-			{
-				if (array[j] != array[j - gap])
-					array[j] = array[j - gap];
-			}
-			if (array[j] != aux)
-				array[j] = aux;
+			aux = array[out];
+			in = out;
 
+			while (in > range - 1 && array[in - range] >= aux)
+			{
+				array[in] = array[in - range];
+				in = in - range;
+			}
+
+			array[in] = aux;
+			out++;
 		}
 		print_array(array, size);
+		range = (range - 1) / 3;
 	}
 }
